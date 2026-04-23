@@ -1,12 +1,11 @@
 import { MenuNav } from "../../components/MenuNav";
 
-
-export function NewTask() {
+export function EditTask() {
   return (
     <>
-      <h3>Cadastrar uma nova task</h3>
-
-       <form>
+      <h3>Editar tarefa</h3>
+      
+      <form>
         <span>Titulo</span>
         <input type="text" />
         <span>descição</span>
@@ -14,7 +13,7 @@ export function NewTask() {
         <button>Altere o texto que está aqui dentro</button>
       </form>
 
-      <MenuNav/>
+      <MenuNav />
     </>
   );
 }

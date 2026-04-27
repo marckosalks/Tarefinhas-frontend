@@ -15,6 +15,8 @@ export function NewTask() {
             <input
               type="text"
               placeholder="Titulo..."
+              maxLength={50}
+              required
               className="w-[80%] text-3xl bg-transparent border-none outline-none focus:outline-none focus:ring-0 shadow-none "
               style={{ padding: 60 }}
             />
@@ -22,6 +24,8 @@ export function NewTask() {
             <input
               type="text"
               placeholder="Descrição..."
+              required  
+              maxLength={200}
               className="w-[80%] text-2xl bg-transparent border-none outline-none focus:outline-none focus:ring-0 shadow-none "
               style={{ padding: 60 }}
             />

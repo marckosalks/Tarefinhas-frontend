@@ -14,9 +14,11 @@ export function Home() {
       action: {
         label: "Confirmar",
         onClick: () => {
-          setTarefa((estadoAnterior) => estadoAnterior.filter((tarefa) => tarefa.id !== id));//o que for igual ele discarta do novo array
-          console.log(id)
-          console.log(tarefa)
+          // chamo meu serviço
+
+          setTarefa((estadoAnterior) =>
+            estadoAnterior.filter((tarefa) => tarefa.id !== id),
+          ); //o que for igual ele discarta do novo array
           toast.success("Tarefa excluída com sucesso!");
         },
       },
@@ -24,7 +26,6 @@ export function Home() {
     });
   };
 
-  
   return (
     <div className="w-full h-screen">
       <div className="">

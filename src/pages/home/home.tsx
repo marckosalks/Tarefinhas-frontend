@@ -1,9 +1,30 @@
+import { toast } from "sonner";
 import { Card } from "../../components/Card";
 import { MenuNav } from "../../components/MenuNav";
 import { tarefinhas } from "../../mocks/tarefinha";
-
+import { useState } from "react";
 
 export function Home() {
+  const [tarefa, setTarefa] = useState(tarefinhas);
+
+  const handleDelete = (id: number) => {
+    toast("Deseja realmente excluir essa tarefa?", {
+      position: "top-center",
+      duration: 5000,
+      action: {
+        label: "Confirmar",
+        onClick: () => {
+          setTarefa((estadoAnterior) => estadoAnterior.filter((tarefa) => tarefa.id !== id));//o que for igual ele discarta do novo array
+          console.log(id)
+          console.log(tarefa)
+          toast.success("Tarefa excluída com sucesso!");
+        },
+      },
+      cancel: "Cancelar",
+    });
+  };
+
+  
   return (
     <div className="w-full h-screen">
       <div className="">
@@ -15,13 +36,19 @@ export function Home() {
 
       <div className="card-tarefa h-80 w-full mt-10">
         <div className="flex gap-6 justify-center" style={{ padding: 40 }}>
-          {tarefinhas.map((tarefa) => (
-            <Card title={tarefa.title} description={tarefa.description} />
+          {tarefa.map((t) => (
+            <Card
+              key={t.id}
+              id={t.id}
+              title={t.title}
+              description={t.description}
+              handleDelete={handleDelete}
+            />
           ))}
         </div>
       </div>
 
-      <MenuNav/>
+      <MenuNav />
     </div>
   );
 }

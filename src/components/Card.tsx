@@ -17,7 +17,7 @@ export function Card({
 
   id,
 }: CardType) {
-  const [risk, setRisk] = useState("");
+  const [risk, setRisk] = useState('');
 
   function handleRisk() {
     if (risk === "line-through") {
@@ -27,7 +27,6 @@ export function Card({
     }
 
     setRisk("line-through");
-    // chamar meu serviço
   }
 
   return (

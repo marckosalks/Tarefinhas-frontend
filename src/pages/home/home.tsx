@@ -1,11 +1,33 @@
 import { toast } from "sonner";
 import { Card } from "../../components/Card";
 import { MenuNav } from "../../components/MenuNav";
-import { tarefinhas } from "../../mocks/tarefinha";
-import { useState } from "react";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteTarefinhas, getTarefinhas } from "../../services/tarefinhasServices";
+
+type Task = {
+  id: number;
+  title: string;
+  description: string;
+};
 
 export function Home() {
-  const [tarefa, setTarefa] = useState(tarefinhas);
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
+    queryKey: ["tarefinhas"],
+    queryFn: getTarefinhas,
+  });
+
+  const mutation = useMutation({
+    // mutation chamando o metodo de deletar
+    mutationFn: (id: number) => deleteTarefinhas(id),
+
+    // invalidar a query
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tarefinhas"] });
+    },
+  });
 
   const handleDelete = (id: number) => {
     toast("Deseja realmente excluir essa tarefa?", {
@@ -14,11 +36,8 @@ export function Home() {
       action: {
         label: "Confirmar",
         onClick: () => {
-          // chamo meu serviço
-
-          setTarefa((estadoAnterior) =>
-            estadoAnterior.filter((tarefa) => tarefa.id !== id),
-          ); //o que for igual ele discarta do novo array
+          // chamo minha função mutation
+          mutation.mutate(id)
           toast.success("Tarefa excluída com sucesso!");
         },
       },
@@ -37,15 +56,16 @@ export function Home() {
 
       <div className="card-tarefa h-80 w-full mt-10">
         <div className="flex gap-6 justify-center" style={{ padding: 40 }}>
-          {tarefa.map((t) => (
-            <Card
-              key={t.id}
-              id={t.id}
-              title={t.title}
-              description={t.description}
-              handleDelete={handleDelete}
-            />
-          ))}
+          {data !== undefined &&
+            data.map((t: Task) => (
+              <Card
+                key={t.id}
+                id={t.id}
+                title={t.title}
+                description={t.description}
+                handleDelete={handleDelete}
+              />
+            ))}
         </div>
       </div>
 
